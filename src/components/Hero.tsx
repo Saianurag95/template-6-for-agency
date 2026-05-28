@@ -1,5 +1,5 @@
 import { ArrowRight, Play, TrendingUp, Users, Eye, MapPin } from "lucide-react";
-import { agency, stats } from "../data/agency";
+import { agency } from "../data/agency";
 
 const mockCards = [
   {

@@ -1,7 +1,8 @@
 import { Instagram, Video, Facebook, Linkedin, Youtube, Globe, CheckCircle2, ArrowRight } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import { platforms, services, agency } from "../data/agency";
 
-const iconMap: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
+const iconMap: Record<string, LucideIcon> = {
   Instagram,
   Video,
   Facebook,

@@ -32,7 +32,6 @@ export default function Packages() {
         <div className="grid md:grid-cols-3 gap-5 items-stretch">
           {packages.map((pkg) => {
             const isPopular = pkg.tag === "Most Popular";
-            const isBest = pkg.tag === "Best Value";
             return (
               <div
                 key={pkg.name}

@@ -37,7 +37,7 @@ export default function TrustBand() {
           Trusted by Hyderabad businesses
         </p>
         <div className="flex items-center gap-10 flex-wrap justify-center px-8">
-          {logos.map((logo, i) => (
+          {logos.map((logo) => (
             <div key={logo} className="flex items-center gap-2 group">
               <Star size={9} className="text-orange-500/40 group-hover:text-orange-400 transition-colors" fill="currentColor" />
               <span className="text-gray-600 font-bold text-[13px] tracking-wide hover:text-gray-400 transition-colors whitespace-nowrap">

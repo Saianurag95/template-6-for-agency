@@ -36,7 +36,7 @@ export default function Portfolio() {
 
         {/* Asymmetric portfolio grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {portfolioItems.map((item, i) => (
+          {portfolioItems.map((item) => (
             <div
               key={item.client}
               className="group relative bg-[#0A0A0F] rounded-2xl overflow-hidden border border-white/[0.06] hover:border-white/15 transition-all duration-400 hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-black/50"

@@ -49,3 +49,29 @@
     @apply text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-rose-500;
   }
 }
+
+[data-scroll-reveal="true"] {
+  opacity: 0;
+  transform: translate3d(0, 26px, 0);
+  filter: blur(6px);
+  transition:
+    opacity 720ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 720ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 720ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform, filter;
+}
+
+[data-scroll-reveal="true"].is-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  filter: blur(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-scroll-reveal="true"] {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    transition: none;
+  }
+}

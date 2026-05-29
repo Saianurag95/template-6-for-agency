@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Zap, ArrowRight, ArrowLeft, CheckCircle2, AlertCircle, ChevronRight, MapPin } from "lucide-react";
 import { templateDemos, packages } from "../data/agency";
+import { submitIntakeWithRazorpay } from "../payments/razorpay";
 
 const STEPS = [
   "Business Info",
@@ -154,7 +155,20 @@ export default function IntakePage() {
   };
 
   const handleNext = () => {
-    if (isLast) { setSubmitted(true); return; }
+    if (isLast) {
+      const selectedPkg = packages.find((pkg) => pkg.name === data.selectedPackage);
+      submitIntakeWithRazorpay({
+        templateId: data.selectedTemplateId || "AG-SOCIAL-06",
+        formData: data as unknown as Record<string, unknown>,
+        packageName: selectedPkg?.name || data.selectedPackage || "Starter",
+        packagePrice: selectedPkg?.price,
+        customerName: data.clientName,
+        customerEmail: data.clientEmail,
+        customerPhone: data.clientPhone,
+        businessName: data.businessName,
+      }).catch(() => setSubmitted(true));
+      return;
+    }
     if (missing.length > 0) { setAttempted(true); return; }
     setAttempted(false);
     setStep((s) => s + 1);
@@ -741,7 +755,7 @@ export default function IntakePage() {
                 : "bg-white/[0.05] text-gray-600 cursor-not-allowed"
             }`}
           >
-            {isLast ? "Submit Intake" : "Save & Continue"}
+            {isLast ? "Pay with Razorpay" : "Save & Continue"}
             {isLast
               ? <CheckCircle2 size={15} className="shrink-0" />
               : <ArrowRight size={15} className="group-hover:translate-x-0.5 transition-transform shrink-0" />

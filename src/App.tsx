@@ -5,12 +5,17 @@ import PaymentConfirmation from "./components/PaymentConfirmation";
 import ScrollReveal from "./components/ScrollReveal";
 
 export default function App() {
-  const [path, setPath] = useState(window.location.pathname);
+  const getPath = () => window.location.hash === "#payment-confirmation" ? "/payment-confirmation" : window.location.pathname;
+  const [path, setPath] = useState(getPath());
 
   useEffect(() => {
-    const onPop = () => setPath(window.location.pathname);
+    const onPop = () => setPath(getPath());
     window.addEventListener("popstate", onPop);
-    return () => window.removeEventListener("popstate", onPop);
+    window.addEventListener("hashchange", onPop);
+    return () => {
+      window.removeEventListener("popstate", onPop);
+      window.removeEventListener("hashchange", onPop);
+    };
   }, []);
 
   // Intercept <a> clicks for SPA navigation

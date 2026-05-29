@@ -41,7 +41,7 @@ function parseAmount(price?: string, packageName?: string) {
 
 function confirmationUrl() {
   const base = import.meta.env.BASE_URL === "/" ? "" : import.meta.env.BASE_URL.replace(/\/$/, "");
-  return `${base}/payment-confirmation`;
+  return `${base}/#payment-confirmation`;
 }
 
 export function getPaymentConfirmation() {

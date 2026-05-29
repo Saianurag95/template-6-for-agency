@@ -24,7 +24,7 @@ export default function Packages() {
         <div className="flex items-center justify-center gap-2 mb-14">
           <div className="inline-flex items-center gap-2 bg-amber-500/8 border border-amber-500/15 rounded-xl px-4 py-2.5">
             <Info size={13} className="text-amber-400 shrink-0" />
-            <span className="text-amber-400/80 text-xs font-medium">Demo pricing for reference only — final price confirmed during intake</span>
+            <span className="text-amber-400/80 text-xs font-medium">Demo pricing. Add ₹500 to ₹900 if we arrange domain and hosting. Online payment only.</span>
           </div>
         </div>
 
@@ -61,6 +61,7 @@ export default function Packages() {
                       <span className={`text-4xl xl:text-5xl font-black tracking-tight ${isPopular ? "text-white" : "text-white"}`}>
                         {pkg.price}
                       </span>
+                      {"hostingPrice" in pkg && <span className="block text-xs font-semibold text-amber-200 mt-2">{pkg.hostingPrice}</span>}
                     </div>
                     <div className={`flex items-center gap-3 mt-3 text-sm flex-wrap ${isPopular ? "text-orange-100/70" : "text-gray-500"}`}>
                       <span className="font-semibold">{pkg.pages}</span>

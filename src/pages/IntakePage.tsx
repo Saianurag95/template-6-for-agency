@@ -559,7 +559,7 @@ export default function IntakePage() {
                 Package Selection
               </SectionTitle>
               <div className="bg-amber-500/8 border border-amber-500/15 rounded-xl px-4 py-3 flex items-center gap-2">
-                <span className="text-amber-400 text-xs font-semibold">Demo pricing for reference — final price confirmed before build starts.</span>
+                <span className="text-amber-400 text-xs font-semibold">Demo pricing. Add ₹500 to ₹900 if we arrange domain and hosting. Payment is online-only.</span>
               </div>
               <div className="flex flex-col gap-3">
                 {packages.map((pkg) => (
@@ -587,6 +587,7 @@ export default function IntakePage() {
                       </div>
                       <div className="text-right">
                         <p className="text-white font-black text-xl tracking-tight">{pkg.price}</p>
+                        {"hostingPrice" in pkg && <p className="text-amber-200 text-xs font-semibold mt-1">{pkg.hostingPrice}</p>}
                         <p className="text-gray-500 text-xs">{pkg.delivery} · {pkg.pages}</p>
                       </div>
                     </div>
@@ -615,8 +616,8 @@ export default function IntakePage() {
                   <p className="text-white font-bold text-sm mb-4">Payment Structure</p>
                   <div className="flex flex-col gap-3">
                     {[
-                      { m: "50% advance", d: "Before build starts — confirms your slot" },
-                      { m: "50% on delivery", d: "Before domain goes live / files handed over" },
+                      { m: "100% online payment", d: "Collected through Razorpay after intake submission" },
+                      { m: "₹500-₹900 add-on", d: "Added only if we arrange domain and hosting" },
                     ].map((item) => (
                       <div key={item.m} className="flex items-start gap-2.5">
                         <div className="w-1.5 h-1.5 bg-orange-400 rounded-full mt-2 shrink-0" />
@@ -632,7 +633,7 @@ export default function IntakePage() {
                 <div className="bg-[#0A0A0F] border border-white/[0.06] rounded-xl p-5">
                   <p className="text-white font-bold text-sm mb-4">Payment Methods</p>
                   <div className="flex flex-col gap-2">
-                    {["UPI / GPay", "PhonePe", "Bank Transfer (NEFT / IMPS)", "Cash (in-person, Hyderabad)"].map((m) => (
+                    {["Razorpay online payment"].map((m) => (
                       <div key={m} className="flex items-center gap-2">
                         <CheckCircle2 size={13} className="text-emerald-400 shrink-0" />
                         <span className="text-gray-400 text-xs">{m}</span>
@@ -645,10 +646,9 @@ export default function IntakePage() {
               <Field label="Payment Confirmation" required>
                 <select className={selectCls} value={data.paymentConfirmed} onChange={(e) => set("paymentConfirmed", e.target.value)}>
                   <option value="">Select...</option>
-                  <option value="Ready to pay 50% advance now">Ready to pay 50% advance now</option>
-                  <option value="Need payment details first">Need payment account details first</option>
-                  <option value="Already paid">Already made payment</option>
-                  <option value="Discuss on call first">Discuss payment on a call first</option>
+                  <option value="Ready to pay online through Razorpay">Ready to pay online through Razorpay</option>
+                  <option value="I understand only Razorpay online payment is accepted">I understand only Razorpay online payment is accepted</option>
+                  <option value="Already completed online payment">Already completed online payment</option>
                 </select>
               </Field>
             </div>

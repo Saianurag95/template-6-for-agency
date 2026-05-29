@@ -17,6 +17,12 @@ declare global {
 
 const STORAGE_KEY = "agency_template_payment_confirmation";
 const RAZORPAY_KEY_ID = import.meta.env.VITE_RAZORPAY_KEY_ID || "rzp_test_REPLACE_WITH_YOUR_KEY_ID";
+function domainHostingAddonFor(packageName: string) {
+  const text = packageName.toLowerCase();
+  if (text.includes("premium")) return 900;
+  if (text.includes("business")) return 700;
+  return 500;
+}
 
 function loadRazorpay() {
   return new Promise<boolean>((resolve) => {
@@ -32,11 +38,27 @@ function loadRazorpay() {
   });
 }
 
-function parseAmount(price?: string, packageName?: string) {
+function parseBaseAmount(price?: string, packageName?: string) {
   const text = `${price || ""} ${packageName || ""}`.toLowerCase();
+  const amounts = text.match(/\d[\d,]*/g)?.map((value) => Number(value.replace(/,/g, ""))) || [];
+  const packageAmount = amounts.find((value) => value >= 6000);
+  if (packageAmount) return packageAmount;
   if (text.includes("12")) return 12000;
   if (text.includes("8")) return 8000;
   return 6000;
+}
+
+function needsDomainHosting(formData: Record<string, unknown>) {
+  const text = JSON.stringify(formData).toLowerCase();
+  return [
+    "need a new domain",
+    "need to purchase a domain",
+    "i need a domain",
+    "need hosting",
+    "include in the package pricing",
+    "hosting arranged",
+    "domain registered",
+  ].some((phrase) => text.includes(phrase));
 }
 
 function confirmationUrl() {
@@ -50,13 +72,15 @@ export function getPaymentConfirmation() {
 }
 
 export async function submitIntakeWithRazorpay(input: PaymentInput) {
-  const amount = parseAmount(input.packagePrice, input.packageName);
+  const domainHostingAddon = needsDomainHosting(input.formData) ? domainHostingAddonFor(input.packageName) : 0;
+  const amount = parseBaseAmount(input.packagePrice, input.packageName) + domainHostingAddon;
   const submission = {
     ...input,
     id: `WEB-${Date.now()}`,
     templateId: input.templateId,
     status: "pending_payment",
     amount,
+    domainHostingAddon,
     currency: "INR",
     submittedAt: new Date().toISOString(),
   };
@@ -89,6 +113,7 @@ export async function submitIntakeWithRazorpay(input: PaymentInput) {
       template_id: input.templateId,
       package: input.packageName,
       submission_id: submission.id,
+      domain_hosting_addon: domainHostingAddon,
     },
     handler: (response: { razorpay_payment_id: string }) => {
       localStorage.setItem(
